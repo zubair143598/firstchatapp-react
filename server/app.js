@@ -24,8 +24,13 @@ io.on('connection', (socket) =>{
 
     socket.on('message',(data)=>{
         console.log(data);
-        socket.broadcast.emit('received-message', data) // due to broadcast this message will sended to all other client in the server except to who is sending
-        // io.broadcast.emit('received-message', data)  //  this will send to everyone including who is sending
+        io.to(data.room).emit('received-message', data) //this will send message to only the person who id is provided
+        // socket.broadcast.emit('received-message', data) // due to broadcast this message will sended to all other client in the server except to who is sending
+        // io.emit('received-message', data)  //  this will send to everyone including who is sending
+    })
+
+    socket.on('join-room', (room)=>{
+        socket.join(room)
     })
     // console.log("id" , socket.id);
 
